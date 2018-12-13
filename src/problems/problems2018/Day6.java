@@ -4,6 +4,7 @@ import problems.Day;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +22,38 @@ public class Day6 extends Day {
                                             "8, 9";
 
     public static void part1(String input) {
-        char[][] grid = new char[10][10];
+        int[][] intGrid = new int[400][400];
+
+        ArrayList<Point> points = new ArrayList<>();
+
+        String pointPatternString = "(\\d+), (\\d+)";
+
+        Pattern pointPattern = Pattern.compile(pointPatternString);
+
+        for (int i = 0; i < input.split("\n").length; i++) {
+            Matcher m = pointPattern.matcher(input.split("\n")[i]);
+            m.find();
+            points.add(new Point(Integer.parseInt(m.group(1)), Integer.parseInt(m.group(2)), (char) (i+65)));
+        }
+
+        for (int r = 0; r < intGrid.length; r++) {
+            for (int c = 0; c < intGrid[0].length; c++) {
+                Point point = new Point(r,c);
+                intGrid[c][r] = point.closestPoint(points);
+            }
+        }
+
+        int[][] grid;
+        grid = eliminateInfinite(getInfiniteList(points, intGrid), intGrid);
+        for (Point point: getInfiniteList(points, grid)) {
+            points.remove(point);
+        }
+
+        System.out.println(getLargestArea(points, grid));
+    }
+
+    public static void part2(String input) {
+        boolean[][] grid = new boolean[400][400];
 
         ArrayList<Point> points = new ArrayList<>();
 
@@ -38,21 +70,25 @@ public class Day6 extends Day {
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
                 Point point = new Point(r,c);
-                int result = point.closestPoint(points);
-                grid[c][r] = (char) (result+32);
+                if(point.distanceFromAll(points) < 10000) {
+                    grid[r][c] = true;
+                } else {
+                    grid[r][c] = false;
+                }
             }
         }
-        for (Point point: points) {
-            grid[point.y][point.x] = point.marker;
+
+        int totalArea = 0;
+
+        for (boolean[] row: grid) {
+            for (boolean point: row) {
+                if(point) {
+                    totalArea++;
+                }
+            }
         }
 
-        for (char[] row: grid) {
-            System.out.println(Arrays.toString(row));
-        }
-    }
-
-    public static void part2(String input) {
-
+        System.out.println(totalArea);
     }
 
     public static class Point {
@@ -84,14 +120,105 @@ public class Day6 extends Day {
             }
             for (int i = 0; i < points.size(); i++) {
                 if(closestPointIndex != i && distanceFromPoint(points.get(i)) == distanceFromPoint(points.get(closestPointIndex))) {
-                    return ((int) '.')-32;
+                    return ((int) '.');
                 }
             }
             return (int) points.get(closestPointIndex).marker;
         }
+
+        public int distanceFromAll(ArrayList<Point> points) {
+            int distance = 0;
+            for (Point point: points) {
+                distance += distanceFromPoint(point);
+            }
+            return distance;
+        }
     }
 
-    public static ArrayList<Point> eliminateInfinite(ArrayList<Point> points) {
+    public static int[][] eliminateInfinite(ArrayList<Point> points, int[][] grid) {
+        HashSet<Integer> infiniteMarkers = new HashSet<>();
+        infiniteMarkers.add((int) '.');
+        for (Point point: points) {
+            infiniteMarkers.add((int) point.marker);
+        }
+        for (int r = 0; r < grid.length; r++) {
+            for (int c = 0; c < grid[0].length; c++) {
+                if(infiniteMarkers.contains(grid[r][c])) {
+                    grid[r][c] = (int) '.';
+                }
+            }
+        }
+        return grid;
+    }
 
+    public static ArrayList<Point> getInfiniteList(ArrayList<Point> points, int[][] grid) {
+        int minX = 0;
+        int maxX = 0;
+        int minY = 0;
+        int maxY = 0;
+        for (int i = 0; i < points.size(); i++) {
+            if (points.get(i).x < minX) {
+                minX = points.get(i).x;
+            }
+            if (points.get(i).x > maxX) {
+                maxX = points.get(i).x;
+            }
+            if (points.get(i).y < minY) {
+                minY = points.get(i).y;
+            }
+            if (points.get(i).y > maxY) {
+                maxY = points.get(i).y;
+            }
+        }
+        HashSet<Integer> infinitePointMarkers = new HashSet<>();
+        for(int c = minX; c < maxX; c++) {
+            infinitePointMarkers.add(grid[minY][c]);
+            infinitePointMarkers.add(grid[maxY][c]);
+        }
+        for (int r = minY; r < maxY; r++) {
+            infinitePointMarkers.add(grid[r][minX]);
+            infinitePointMarkers.add(grid[r][maxX]);
+        }
+
+        ArrayList<Point> infinitePoints = new ArrayList<>();
+
+        for (Point point: points) {
+            if(infinitePointMarkers.contains((int) point.marker)) {
+                infinitePoints.add(point);
+            }
+        }
+        return infinitePoints;
+    }
+
+    public static char[][] intGridToCharGrid(int[][] grid) {
+        char[][] result = new char[grid.length][grid[0].length];
+
+        for (int r = 0; r < grid.length; r++) {
+            for (int c = 0; c < grid[0].length; c++) {
+                result[r][c] = (char) grid[r][c];
+            }
+        }
+
+        return result;
+    }
+
+    public static int getLargestArea(ArrayList<Point> points, int[][] grid) {
+        int[] pointSizes = new int[points.size()];
+        for (int r = 0; r < grid.length; r++) {
+            for (int c = 0; c < grid[0].length; c++) {
+                for (int i = 0; i < points.size(); i++) {
+                    if(grid[r][c] == (int) points.get(i).marker) {
+                        pointSizes[i]++;
+                    }
+                }
+            }
+        }
+        int greatestPointArea = 0;
+        for (int i = 0; i < pointSizes.length; i++) {
+            if (pointSizes[i] > greatestPointArea) {
+                greatestPointArea = pointSizes[i];
+            }
+        }
+        return greatestPointArea;
     }
 }
