@@ -90,4 +90,8 @@ public class Day6 extends Day {
             return (int) points.get(closestPointIndex).marker;
         }
     }
+
+    public static ArrayList<Point> eliminateInfinite(ArrayList<Point> points) {
+
+    }
 }
