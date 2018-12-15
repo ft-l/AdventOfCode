@@ -22,15 +22,20 @@ public class Day8 extends Day {
         for (int i = 0; i < license.length; i++) {
             license[i] = Integer.parseInt(input2[i].replaceAll("\n", ""));
         }
-        processNode(license, 0);
-        System.out.println(METADATA_ENTRY_SUM);
+        System.out.println(processNode(license, 0).getPart1Value());
     }
 
     public static void part2(String input) {
+        String[] input2 = input.split(" ");
+        int[] license = new int[input2.length];
 
+        for (int i = 0; i < license.length; i++) {
+            license[i] = Integer.parseInt(input2[i].replaceAll("\n", ""));
+        }
+        System.out.println(processNode(license, 0).getPart2Value());
     }
 
-    public static int processNode(int[] node, int layer) {
+    public static Node processNode(int[] node, int layer) {
         String checkpoint = "";
         for (int i = 0; i < layer; i++) {
             checkpoint += "  ";
@@ -39,23 +44,28 @@ public class Day8 extends Day {
         int childNodeCount = node[0];
         int metaDataCount = node[1];
         int subNodesLength = 0;
+        ArrayList<Node> subNodes = new ArrayList<>();
+        int[] metaDataEntries = new int[metaDataCount];
         if(childNodeCount > 0) {
             int[] remainingNode = newCutOffArray(node, 2);
             for (int i = 0; i < childNodeCount; i++) {
-                subNodesLength += processNode(newCutOffArray(remainingNode, subNodesLength), layer + 1);
-                //System.out.println(checkpoint + "subNodeLength " + subNodesLength);
+                subNodes.add(processNode(newCutOffArray(remainingNode, subNodesLength), layer + 1));
+                subNodesLength += subNodes.get(i).length;
             }
-            for (int i = 0; i < metaDataCount; i++) {
+            for (int i = 2; i < 2+metaDataCount; i++) {
                 //System.out.println(checkpoint + "node[i+subNodesLength+2]: " + node[i+subNodesLength+2]);
-                METADATA_ENTRY_SUM += node[i+subNodesLength+2];
+                METADATA_ENTRY_SUM += node[i+subNodesLength];
+                metaDataEntries[i-2] = node[i+subNodesLength];
             }
-            return 2+subNodesLength+metaDataCount;
+            return new Node(subNodes, metaDataEntries);
         } else {
             for (int i = 2; i < 2+metaDataCount; i++) {
                 //System.out.println(checkpoint + "node[i]: " + node[i]);
                 METADATA_ENTRY_SUM += node[i];
+                metaDataEntries[i-2] = node[i];
             }
-            return 2+metaDataCount;
+            Node result = new Node(subNodes, metaDataEntries);
+            return result;
         }
     }
 
@@ -65,5 +75,54 @@ public class Day8 extends Day {
             result[i] = array[i+cutoffPoint];
         }
         return result;
+    }
+
+    public static class Node {
+
+        ArrayList<Node> subNodes;
+        int[] metaData;
+        int length;
+
+        public Node(ArrayList<Node> subNodes, int[] metaData) {
+            this.subNodes = subNodes;
+            this.metaData = metaData;
+            length = 2+metaData.length;
+            for (Node subNode: subNodes) {
+                length += subNode.length;
+            }
+        }
+
+        public int getPart1Value() {
+            int value = 0;
+            for (int metaDataEntry: metaData) {
+                value += metaDataEntry;
+            }
+            for (Node subNode: subNodes) {
+                value += subNode.getPart1Value();
+            }
+            return value;
+        }
+
+        public int getPart2Value() {
+            int value = 0;
+            if (subNodes.size() > 0) {
+                for (int metaDataEntry: metaData) {
+                    if(metaDataEntry < subNodes.size()+1) {
+                        value += subNodes.get(metaDataEntry-1).getPart2Value();
+                    }
+                }
+            } else {
+                for (int metaDataEntry: metaData) {
+                    value += metaDataEntry;
+                }
+            }
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            String string = subNodes.toString();
+            return string;
+        }
     }
 }
