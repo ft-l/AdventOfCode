@@ -17,15 +17,29 @@ public class Day13 extends Day {
                                             "| | |  | v  |\n" +
                                             "\\-+-/  \\-+--/\n" +
                                             "  \\------/   ";
+    public static final String TEST_INPUT_2 = "/>-<\\  \n" +
+                                              "|   |  \n" +
+                                              "| /<+-\\\n" +
+                                              "| | | v\n" +
+                                              "\\>+</ |\n" +
+                                              "  |   ^\n" +
+                                              "  \\<->/";
 
     public static void part1(String input) {
+        int widestPoint = 0;
 
-        char[][] map = new char[input.split("\n")[0].length()][input.split("\n").length];
+        for (String line: input.split("\n")) {
+            if (line.length() > widestPoint) {
+                widestPoint = line.length();
+            }
+        }
+
+        char[][] map = new char[widestPoint][input.split("\n").length];
 
         ArrayList<Cart> carts = new ArrayList<>();
 
-        for (int x = 0; x < input.split("\n")[0].length(); x++) {
-            for (int y = 0; y < input.split("\n").length; y++) {
+        for (int y = 0; y < input.split("\n").length; y++) {
+            for (int x = 0; x < input.split("\n")[y].length(); x++) {
                 if ("v><^".contains(""+input.split("\n")[y].charAt(x))) {
                     switch (input.split("\n")[y].charAt(x)) {
                         case 'v':
@@ -47,28 +61,80 @@ public class Day13 extends Day {
                 }
             }
         }
+        //printMapWithCarts(map, carts);
         boolean collision = false;
-        printMapWithCarts(map, carts);
-        /*while(!collision) {
+        while(!collision) {
             for (Cart cart: carts) {
                 cart.move(map);
             }
-            printMapWithCarts(map, carts);
+            //printMapWithCarts(map, carts);
             for (int i = 0; i < carts.size(); i++) {
                 for (int j = i + 1; j < carts.size(); j++) {
                     if (carts.get(i).x == carts.get(j).x && carts.get(i).y == carts.get(j).y) {
-                        System.out.println(carts.get(i).y + "," + carts.get(i).x);
+                        System.out.println(carts.get(i).position());
                         collision = true;
                     }
                 }
             }
-        }*/
+        }
     }
 
     public static void part2(String input) {
-        char[][] test = new char[5][10];
-        System.out.println(test.length);
-        System.out.println(test[0].length);
+        int widestPoint = 0;
+
+        for (String line: input.split("\n")) {
+            if (line.length() > widestPoint) {
+                widestPoint = line.length();
+            }
+        }
+
+        char[][] map = new char[widestPoint][input.split("\n").length];
+
+        ArrayList<Cart> carts = new ArrayList<>();
+
+        for (int y = 0; y < input.split("\n").length; y++) {
+            for (int x = 0; x < input.split("\n")[y].length(); x++) {
+                if ("v><^".contains(""+input.split("\n")[y].charAt(x))) {
+                    switch (input.split("\n")[y].charAt(x)) {
+                        case 'v':
+                            carts.add(new Cart(Direction.DOWN, x, y));
+                            break;
+                        case '^':
+                            carts.add(new Cart(Direction.UP, x, y));
+                            break;
+                        case '<':
+                            carts.add(new Cart(Direction.LEFT, x, y));
+                            break;
+                        case '>':
+                            carts.add(new Cart(Direction.RIGHT, x, y));
+                            break;
+                    }
+                    map[x][y] = '.';
+                } else {
+                    map[x][y] = input.split("\n")[y].charAt(x);
+                }
+            }
+        }
+        while(carts.size() > 1) {
+            //printMapWithCarts(map, carts);
+            for (Cart cart: carts) {
+                cart.move(map);
+            }
+            boolean collision = true;
+            while (collision) {
+                collision = false;
+                for (int i = 0; i < carts.size(); i++) {
+                    for (int j = i + 1; j < carts.size(); j++) {
+                        if (carts.get(i).x == carts.get(j).x && carts.get(i).y == carts.get(j).y) {
+                            carts.remove(i);
+                            carts.remove(j - 1);
+                            collision = true;
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println(carts.get(0).position());
     }
 
     public static void printMapWithCarts(char[][] map, ArrayList<Cart> carts) {
@@ -94,8 +160,13 @@ public class Day13 extends Day {
             }
         }
         for (char[] line: map1) {
-            System.out.println(Arrays.toString(line));
+            for (char c : line) {
+                System.out.print(c);
+            }
+            System.out.println();
         }
+        System.out.println();
+        System.out.println();
     }
 
     public static class Cart {
@@ -110,12 +181,106 @@ public class Day13 extends Day {
             this.y = y;
         }
 
-        public void turn() {
+        public String position() {
+            return x+","+y;
+        }
 
+        public void turn() {
+            switch (nextTurn) {
+                case LEFT:
+                    switch (movementDirection) {
+                        case LEFT:
+                            movementDirection = Direction.DOWN;
+                            break;
+                        case RIGHT:
+                            movementDirection = Direction.UP;
+                            break;
+                        case UP:
+                            movementDirection = Direction.LEFT;
+                            break;
+                        case DOWN:
+                            movementDirection = Direction.RIGHT;
+                            break;
+                    }
+                    nextTurn = Direction.STRAIGHT;
+                    break;
+                case STRAIGHT:
+                    nextTurn = Direction.RIGHT;
+                    break;
+                case RIGHT:
+                    switch (movementDirection) {
+                        case LEFT:
+                            movementDirection = Direction.UP;
+                            break;
+                        case RIGHT:
+                            movementDirection = Direction.DOWN;
+                            break;
+                        case UP:
+                            movementDirection = Direction.RIGHT;
+                            break;
+                        case DOWN:
+                            movementDirection = Direction.LEFT;
+                            break;
+                    }
+                    nextTurn = Direction.LEFT;
+                    break;
+            }
         }
 
         public void move(char[][] map) {
-
+            switch (movementDirection) {
+                case UP:
+                    y--;
+                    break;
+                case DOWN:
+                    y++;
+                    break;
+                case LEFT:
+                    x--;
+                    break;
+                case RIGHT:
+                    x++;
+                    break;
+            }
+            if (map[x][y] == '+') {
+                turn();
+            } else {
+                switch (movementDirection) {
+                    case UP:
+                        if (map[x][y] == '/') {
+                            movementDirection = Direction.RIGHT;
+                        } else if (map[x][y] == '\\') {
+                            movementDirection = Direction.LEFT;
+                        }
+                        break;
+                    case DOWN:
+//                    System.out.println("map length :"+map.length);
+//                    System.out.println("map[0] length :"+map[0].length);
+//                    System.out.println(map[0][4]);
+//                    System.out.println("x :"+x);
+//                    System.out.println("y :"+y);
+                        if (map[x][y] == '/') {
+                            movementDirection = Direction.LEFT;
+                        } else if (map[x][y] == '\\') {
+                            movementDirection = Direction.RIGHT;
+                        }
+                        break;
+                    case LEFT:
+                        if (map[x][y] == '/') {
+                            movementDirection = Direction.DOWN;
+                        } else if (map[x][y] == '\\') {
+                            movementDirection = Direction.UP;
+                        }
+                        break;
+                    case RIGHT:
+                        if (map[x][y] == '/') {
+                            movementDirection = Direction.UP;
+                        } else if (map[x][y] == '\\') {
+                            movementDirection = Direction.DOWN;
+                        }
+                        break;
+                }
+            }
         }
     }
 

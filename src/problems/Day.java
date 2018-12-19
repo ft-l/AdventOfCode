@@ -22,7 +22,11 @@ public abstract class Day {
             String line = br.readLine();
 
             while (line != null) {
-                sb += line.trim()+"\n";
+                if (day == 13) {
+                    sb += line+"\n";
+                } else {
+                    sb += line.trim() + "\n";
+                }
                 line = br.readLine();
             }
             return sb;
