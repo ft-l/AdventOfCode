@@ -17,8 +17,8 @@ public class Day13 extends Day {
                                             "| | |  | v  |\n" +
                                             "\\-+-/  \\-+--/\n" +
                                             "  \\------/   ";
-    public static final String TEST_INPUT_2 = "/>-<\\  \n" +
-                                              "|   |  \n" +
+    public static final String TEST_INPUT_2 = "/---\\  \n" +
+                                              "^   ^  \n" +
                                               "| /<+-\\\n" +
                                               "| | | v\n" +
                                               "\\>+</ |\n" +
@@ -115,8 +115,10 @@ public class Day13 extends Day {
                 }
             }
         }
+
+        int step = 0;
         while(carts.size() > 1) {
-            //printMapWithCarts(map, carts);
+            step++;
             for (Cart cart: carts) {
                 cart.move(map);
             }
@@ -126,6 +128,8 @@ public class Day13 extends Day {
                 for (int i = 0; i < carts.size(); i++) {
                     for (int j = i + 1; j < carts.size(); j++) {
                         if (carts.get(i).x == carts.get(j).x && carts.get(i).y == carts.get(j).y) {
+                            printMapWithCarts(map, carts);
+                            System.out.println("Collision at step "+step+" at "+carts.get(i).position());
                             carts.remove(i);
                             carts.remove(j - 1);
                             collision = true;
@@ -242,6 +246,10 @@ public class Day13 extends Day {
                     x++;
                     break;
             }
+            checkForDirectionChange(map);
+        }
+
+        public void checkForDirectionChange(char[][] map) {
             if (map[x][y] == '+') {
                 turn();
             } else {
@@ -254,11 +262,6 @@ public class Day13 extends Day {
                         }
                         break;
                     case DOWN:
-//                    System.out.println("map length :"+map.length);
-//                    System.out.println("map[0] length :"+map[0].length);
-//                    System.out.println(map[0][4]);
-//                    System.out.println("x :"+x);
-//                    System.out.println("y :"+y);
                         if (map[x][y] == '/') {
                             movementDirection = Direction.LEFT;
                         } else if (map[x][y] == '\\') {
