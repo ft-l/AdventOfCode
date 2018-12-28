@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         Day15 day = new Day15();
-        Day15.part1(day.TEST_INPUT);
-        //Day15.part2(day.input);
+        Day15.part1(day.input);
+        Day15.part2(day.input);
     }
 }
