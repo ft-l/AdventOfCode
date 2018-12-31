@@ -12,8 +12,6 @@ public class Day15 extends Day {
 
     public static Point[][] map;
 
-    public static boolean SIMULATION_DONE;
-
     public static boolean LOST_ELVES = true;
 
     public static int ELF_COUNT, GOBLIN_COUNT, FULL_ROUNDS;
@@ -46,7 +44,7 @@ public class Day15 extends Day {
         String result;
         processInput(input, 3);
         while (true) {
-            result = allTakeTurn();
+            result = allTakeTurn(1);
             if (!result.equals("Not done")) {
                 break;
             }
@@ -59,7 +57,7 @@ public class Day15 extends Day {
         while (LOST_ELVES) {
             processInput(input, attack);
             while (true) {
-                result = allTakeTurn();
+                result = allTakeTurn(2);
                 if (!result.equals("Not done")) {
                     break;
                 }
@@ -68,18 +66,7 @@ public class Day15 extends Day {
         }
     }
 
-    public static String simulateTillOver() {
-        String result;
-        while (true) {
-            result = allTakeTurn();
-            if (!result.equals("Not done")) {
-                return result;
-            }
-        }
-    }
-
     public static void processInput(String input, int elfAttack) {
-        SIMULATION_DONE = false;
         LOST_ELVES = false;
         ELF_COUNT = 0;
         GOBLIN_COUNT = 0;
@@ -121,7 +108,7 @@ public class Day15 extends Day {
         return sumOfHitpoints*FULL_ROUNDS;
     }
 
-    public static String allTakeTurn() {
+    public static String allTakeTurn(int part) {
         for (int y = 0; y < map[0].length; y++) {
             for (int x = 0; x < map.length; x++) {
                 if (map[x][y].combatant != null && !map[x][y].combatant.takenTurn) {
@@ -136,13 +123,15 @@ public class Day15 extends Day {
                                     GOBLIN_COUNT--;
                                 }
                                 if (ELF_COUNT == 0) {
-                                    System.out.println(getOutcome());
-                                    SIMULATION_DONE = true;
+                                    if (part == 1) {
+                                        System.out.println("Part 1 = " + getOutcome());
+                                    }
                                     return "Goblin";
                                 }
                                 if (GOBLIN_COUNT == 0) {
-                                    System.out.println(getOutcome());
-                                    SIMULATION_DONE = true;
+                                    if (!LOST_ELVES) {
+                                        System.out.println("Part 2 = " + getOutcome());
+                                    }
                                     return "Elf";
                                 }
                                 map[x2][y2].combatant = null;
