@@ -20,7 +20,8 @@ public class Day7 extends Day {
                                             "Step D must be finished before step E can begin.\n" +
                                             "Step F must be finished before step E can begin.";
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         boolean stepsAvailable = true;
 
         String steps = "";
@@ -36,7 +37,8 @@ public class Day7 extends Day {
         System.out.println(steps);
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         boolean stepsAvailable = true;
 
         String steps = "";

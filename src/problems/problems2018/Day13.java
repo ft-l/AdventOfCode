@@ -26,7 +26,8 @@ public class Day13 extends Day {
                                               "  |   ^\n" +
                                               "  \\<->/";
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         int widestPoint = 0;
         for (String line: input.split("\n")) {
             if (line.length() > widestPoint) {
@@ -82,7 +83,8 @@ public class Day13 extends Day {
         }
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         int widestPoint = 0;
         for (String line: input.split("\n")) {
             if (line.length() > widestPoint) {

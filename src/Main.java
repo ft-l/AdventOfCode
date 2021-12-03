@@ -1,12 +1,11 @@
-import problems.problems2018.*;
+import problems.problems2021.Day3;
 
-import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
-        Day15 day = new Day15();
-        Day15.part1(day.input);
-        Day15.part2(day.input);
+        Day3 day = new Day3();
+        day.part1();
+        day.part2();
     }
 }

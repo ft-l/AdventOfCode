@@ -8,7 +8,8 @@ public class Day2 extends Day {
         super(2, 2018);
     }
 
-    public void part1(String input) {
+    @Override
+    public void part1() {
         char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
         int appearsTwice = 0;
         int appearsThrice = 0;
@@ -37,7 +38,8 @@ public class Day2 extends Day {
         System.out.println(appearsTwice*appearsThrice);
     }
 
-    public void part2(String input) {
+    @Override
+    public void part2() {
         boolean done = false;
         for(int i = 0; i < input.split("\n").length-1; i++) {
             for(int r = i+1; r < input.split("\n").length; r++) {

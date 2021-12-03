@@ -21,7 +21,8 @@ public class Day6 extends Day {
                                             "5, 5\n" +
                                             "8, 9";
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         int[][] intGrid = new int[400][400];
 
         ArrayList<Point> points = new ArrayList<>();
@@ -52,7 +53,8 @@ public class Day6 extends Day {
         System.out.println(getLargestArea(points, grid));
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         boolean[][] grid = new boolean[400][400];
 
         ArrayList<Point> points = new ArrayList<>();

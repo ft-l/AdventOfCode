@@ -24,7 +24,8 @@ public class Day18 extends Day {
         super(18, 2018);
     }
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         char[][] area = new char[input.split("\n").length][input.split("\n")[0].length()];
 
         for (int y = 0; y < area[0].length; y++) {
@@ -39,7 +40,8 @@ public class Day18 extends Day {
         System.out.println("Part1 = " + getResourceValue(area));
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         char[][] area = new char[input.split("\n").length][input.split("\n")[0].length()];
 
         for (int y = 0; y < area[0].length; y++) {

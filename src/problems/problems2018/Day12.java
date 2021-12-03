@@ -34,7 +34,8 @@ public class Day12 extends Day {
                                             "###.# => #\n" +
                                             "####. => #";
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         String plantGrowthPatternString = "([.#]+) => ([.#])";
         Pattern plantGrowthPattern = Pattern.compile(plantGrowthPatternString);
 
@@ -70,7 +71,8 @@ public class Day12 extends Day {
         System.out.println(plantPotNumberSum);
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         String plantGrowthPatternString = "([.#]+) => ([.#])";
         Pattern plantGrowthPattern = Pattern.compile(plantGrowthPatternString);
 

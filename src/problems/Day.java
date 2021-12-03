@@ -34,4 +34,8 @@ public abstract class Day {
             br.close();
         }
     }
+
+    public abstract void part1();
+
+    public abstract void part2();
 }

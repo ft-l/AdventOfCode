@@ -21,7 +21,8 @@ public class Day19 extends Day {
         super(19, 2018);
     }
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         String numPatternString = "(\\d+) (\\d+) (\\d+)";
         Pattern numPattern = Pattern.compile(numPatternString);
 
@@ -100,7 +101,8 @@ public class Day19 extends Day {
         System.out.println("Part1 = " + registers[0]);
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         String numPatternString = "(\\d+) (\\d+) (\\d+)";
         Pattern numPattern = Pattern.compile(numPatternString);
 

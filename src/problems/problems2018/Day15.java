@@ -40,7 +40,8 @@ public class Day15 extends Day {
                                                 "#..E#.#\n" +
                                                 "#######";
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         String result;
         processInput(input, 3);
         while (true) {
@@ -51,7 +52,8 @@ public class Day15 extends Day {
         }
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         String result = "";
         int attack = 3;
         while (LOST_ELVES) {

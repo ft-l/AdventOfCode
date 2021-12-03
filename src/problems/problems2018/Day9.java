@@ -15,7 +15,8 @@ public class Day9 extends Day {
         super(9, 2018);
     }
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         String inputPatternString = "(\\d+) players; last marble is worth (\\d+) points";
         Pattern inputPattern = Pattern.compile(inputPatternString);
         Matcher m = inputPattern.matcher(input);
@@ -59,7 +60,8 @@ public class Day9 extends Day {
         System.out.println(greatestScore);
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         String inputPatternString = "(\\d+) players; last marble is worth (\\d+) points";
         Pattern inputPattern = Pattern.compile(inputPatternString);
         Matcher m = inputPattern.matcher(input);

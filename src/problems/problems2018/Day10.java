@@ -45,7 +45,8 @@ public class Day10 extends Day {
         super(10, 2018);
     }
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         String starPatternString = "position=< ?(-?\\d+),  ?(-?\\d+)> velocity=< ?(-?\\d+),  ?(-?\\d+)>";
         Pattern starProcessingPattern = Pattern.compile(starPatternString);
 
@@ -112,7 +113,8 @@ public class Day10 extends Day {
         printStars(stars);
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         String starPatternString = "position=< ?(-?\\d+),  ?(-?\\d+)> velocity=< ?(-?\\d+),  ?(-?\\d+)>";
         Pattern starProcessingPattern = Pattern.compile(starPatternString);
 

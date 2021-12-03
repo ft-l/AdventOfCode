@@ -13,7 +13,8 @@ public class Day14 extends Day {
     public static final String TEST_INPUT_1 = "2018";
     public static final String TEST_INPUT_2 = "92510";
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         int recipesToPass = Integer.parseInt(input.replaceAll("\n", ""));
         int[] recipes = new int[recipesToPass+10];
 
@@ -48,7 +49,8 @@ public class Day14 extends Day {
         System.out.println(lastTen);
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         String patternToFind = input.replaceAll("\n", "");
         int[] recipes = new int[30000000];
 

@@ -31,7 +31,8 @@ public class Day17 extends Day {
         super(17, 2018);
     }
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         String verticalPatternString = "x=(\\d+), y=(\\d+)\\.\\.(\\d+)";
         String horizontalPatternString = "y=(\\d+), x=(\\d+)\\.\\.(\\d+)";
 
@@ -131,7 +132,8 @@ public class Day17 extends Day {
         System.out.println("Part1 = "+spotsWaterReaches);
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         String verticalPatternString = "x=(\\d+), y=(\\d+)\\.\\.(\\d+)";
         String horizontalPatternString = "y=(\\d+), x=(\\d+)\\.\\.(\\d+)";
 

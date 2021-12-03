@@ -10,7 +10,8 @@ public class Day11 extends Day {
 
     public static final String TEST_INPUT = "18";
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         int serial = Integer.parseInt(input.substring(0,input.length()-1));
         int[][] grid = new int[300][300];
         for (int r = 0; r < 300; r++) {
@@ -21,7 +22,8 @@ public class Day11 extends Day {
         System.out.println(greatestSquare(grid,3)[0]+","+greatestSquare(grid,3)[1]);
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         int serial = Integer.parseInt(input.substring(0,input.length()-1));
         int[][] grid = new int[300][300];
         for (int r = 0; r < 300; r++) {

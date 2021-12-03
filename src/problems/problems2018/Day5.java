@@ -10,12 +10,14 @@ public class Day5 extends Day {
 
     public static final String TEST_INPUT = "dabAcCaCBAcCcaDA";
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         input = fullReact(input);
         System.out.println(input.length());
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
 
         int[] polymers = new int[26];
 

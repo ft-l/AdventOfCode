@@ -32,7 +32,8 @@ public class Day4 extends Day {
             "[1518-11-05 00:45] falls asleep\n" +
             "[1518-11-05 00:55] wakes up";
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         String guardPatternString = "\\[1518-\\d{2}-\\d{2} \\d{2}:\\d{2}] Guard #(\\d{1,4}) begins shift";
         String wakePatternString = "\\[1518-\\d{2}-\\d{2} \\d{2}:(\\d{2})\\] wakes up";
         String asleepPatternString = "\\[1518-\\d{2}-\\d{2} \\d{2}:(\\d{2})\\] falls asleep";
@@ -105,7 +106,8 @@ public class Day4 extends Day {
         System.out.println(sleepiestGuardId*mostSleptDay);
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         String guardPatternString = "\\[1518-\\d{2}-\\d{2} \\d{2}:\\d{2}] Guard #(\\d{1,4}) begins shift";
         String wakePatternString = "\\[1518-\\d{2}-\\d{2} \\d{2}:(\\d{2})\\] wakes up";
         String asleepPatternString = "\\[1518-\\d{2}-\\d{2} \\d{2}:(\\d{2})\\] falls asleep";

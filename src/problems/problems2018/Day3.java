@@ -16,7 +16,8 @@ public class Day3 extends Day {
                                             "#2 @ 3,1: 4x4\n" +
                                             "#3 @ 5,5: 2x2";
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         int result = 0;
 
         String pattern = "#\\d{1,4} @ (\\d{1,3}),(\\d{1,3}): (\\d{1,3})x(\\d{1,3})";
@@ -45,7 +46,8 @@ public class Day3 extends Day {
         System.out.println(result);
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         String pattern = "#\\d{1,4} @ (\\d{1,3}),(\\d{1,3}): (\\d{1,3})x(\\d{1,3})";
         Pattern r = Pattern.compile(pattern);
         int[][] cloth = new int[1000][1000];

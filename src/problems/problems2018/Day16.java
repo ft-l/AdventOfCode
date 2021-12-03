@@ -26,7 +26,8 @@ public class Day16 extends Day {
         super(16, 2018);
     }
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         String samples = input.split("\n\n\n\n")[0];
 
         String pattern = "Before: +(\\[[\\d, ]+\\])\\n([\\d, ]+)\\nAfter: +(\\[[\\d, ]+\\])";
@@ -57,7 +58,9 @@ public class Day16 extends Day {
         }
         System.out.println("Part1 = "+samplesWithThreeOrMorePossibleOpcodes);
     }
-    public static void part2(String input) {
+
+    @Override
+    public void part2() {
         String samples = input.split("\n\n\n\n")[0];
 
         String pattern = "Before: +(\\[[\\d, ]+\\])\\n([\\d, ]+)\\nAfter: +(\\[[\\d, ]+\\])";

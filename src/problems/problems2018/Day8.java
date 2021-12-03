@@ -15,7 +15,8 @@ public class Day8 extends Day {
         super(8, 2018);
     }
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
         String[] input2 = input.split(" ");
         int[] license = new int[input2.length];
 
@@ -25,7 +26,8 @@ public class Day8 extends Day {
         System.out.println(processNode(license, 0).getPart1Value());
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
         String[] input2 = input.split(" ");
         int[] license = new int[input2.length];
 

@@ -16,7 +16,8 @@ public class Day1 extends Day {
                                         "-2\n" +
                                         "-4\n";
 
-    private void part1(String input) {
+    @Override
+    public void part1() {
         int total = 0;
         for(String line : input.split("\n")) {
             if(line.substring(0,1).equals("+")) {
@@ -28,7 +29,8 @@ public class Day1 extends Day {
         System.out.println(total);
     }
 
-    private void part2(String input) {
+    @Override
+    public void part2() {
         int frequency = 0;
         ArrayList<Integer> frequencies = new ArrayList<>();
         boolean repeat = false;

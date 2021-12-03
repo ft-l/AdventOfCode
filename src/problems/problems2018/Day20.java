@@ -10,11 +10,13 @@ public class Day20 extends Day {
         super(20, 2018);
     }
 
-    public static void part1(String input) {
+    @Override
+    public void part1() {
 
     }
 
-    public static void part2(String input) {
+    @Override
+    public void part2() {
 
     }
 }
