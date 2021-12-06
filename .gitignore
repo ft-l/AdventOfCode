@@ -1,3 +1,4 @@
 .idea
 out
 AdventOfCode.iml
+src/Main.java
